@@ -6,8 +6,6 @@ from flask import Flask, request, session, g, redirect, url_for, abort, render_t
 DATABASE = '/tmp/flaskr.db'
 DEBUG = True
 SECRET_KEY = 'development key'
-USERNAME = 'admin'
-PASSWORD = 'default'
 
 app = Flask(__name__)
 app.config.from_object(__name__)
@@ -31,8 +29,8 @@ def teardown_request(exception):
 
 @app.route('/')
 def show_entries():
-    cur = g.db.execute('select title, text from entries order by id desc')
-    entries = [dict(title=row[0], text=row[1]) for row in cur.fetchall()]
+    cur = g.db.execute('select id, title, text from entries order by id desc')
+    entries = [dict(id = row[0], title=row[1], text=row[2]) for row in cur.fetchall()]
     return render_template('show_entries.html', entries=entries)
 
 @app.route('/add', methods=['POST'])
@@ -44,18 +42,40 @@ def add_entry():
     flash('New entry was successfully posted')
     return redirect(url_for('show_entries'))
 
+@app.route('/del')
+def del_entry():
+    if not session.get('logged_in'):
+        abort(401)
+    g.db.execute('delete from entries where id = ?', [request.args['id']])
+    g.db.commit()
+    flash('Delete entry success')
+    return redirect(url_for('show_entries'))
+
+@app.route('/edit', methods=['POST'])
+def edit_entry():
+    if not session.get('logged_in'):
+        abort(401)
+    g.db.execute('update entries set title=?, text=? where id=?', [request.form['title'], request.form['text'], request.args['id']])
+    g.db.commit()
+    flash('Edit Sucess')
+    return redirect(url_for('show_entries'))
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     error = None
     if request.method == 'POST':
-        if request.form['username'] != app.config['USERNAME']:
+        cur = g.db.execute('select username, password from logins where username = ?', [request.form['username']])
+        result = cur.fetchall()
+        if len(result) == 0:
             error = 'Invalid username'
-        elif request.form['password'] != app.config['PASSWORD']:
-            error = 'Invalid password'
         else:
-            session['logged_in'] = True
-            flash('You were logged in')
-            return redirect(url_for('show_entries'))
+            password = result[0][1]
+            if request.form['password'] != password:
+                error = 'Invalid password'
+            else:
+                session['logged_in'] = True
+                flash('You were logged in')
+                return redirect(url_for('show_entries'))
     return render_template('login.html', error=error)
 
 @app.route('/logout')

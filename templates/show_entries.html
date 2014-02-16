@@ -11,11 +11,22 @@
   </dl>
 </form>
 {% endif %}
+<script type="text/javascript">
+  function del(id) {
+  var answer = confirm("delete?");
+  if (answer)
+  location.href='/del?id='+id;
+  }
+</script>
 <ul class=entries>
   {% for entry in entries %}
-  <li><h2>{{ entry.title }}</h2>{{ entry.text|safe }}
+  <li><form action="{{ url_for('edit_entry',id=entry.id) }}" method=post class=eidt-entry>
+	  <h2><input type=text name=title value={{ entry.title }}>
+		<input type=button value=Delete onclick='del({{ entry.id|tojson|safe }})'></h2>
+	  <input type=text name=text value={{ entry.text|safe }}>
+	  <input type=submit value=Edit></form></li>
 	{% else %}
-  <li><em>Unbelievable. No entries here so far</em>
+  <li><em>Unbelievable. No entries here so far</em></li>
 	{% endfor %}
 </ul>
 {% endblock %}
