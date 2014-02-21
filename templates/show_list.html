@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+{% block body %}
+{% if session.logged_in %}
+<form action="{{ url_for('add_entry') }}" method=post class=add-entry>
+  <dl>
+	<dt>Title:
+	  <dd><input type=text size=30 name=title>
+		<dt>Text:
+		  <dd><textarea name=text rows=5 cols=40></textarea>
+			<dt>Password: <input type=text size=5 name=pw>
+			  <dd><input type=submit value=Share>
+  </dl>
+</form>
+{% endif %}
+<script type="text/javascript">
+  function entry(id) {
+  location.href='/entry?id='+id;
+  }
+</script>
+<table class=List width="100%" border="1">
+  {% for lst in List %}
+  <tr>
+	<td width="10%">ID</td>
+	<td>Title</td>
+  </tr>
+  <tr>
+	<td>{{ lst.id|safe }}</td>
+	<td><div style="color:blue" onclick='entry({{ lst.id }})'>{{ lst.title }}</div></td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}
