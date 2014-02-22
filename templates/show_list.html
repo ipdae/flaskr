@@ -18,15 +18,19 @@
   }
 </script>
 <table class=List width="100%" border="1">
-  {% for lst in List %}
+  <thead>
   <tr>
-	<td width="10%">ID</td>
-	<td>Title</td>
+	<th width="10%">ID</th>
+	<th>Title</th>
   </tr>
+  </thead>
+  <tbody>
+  {% for lst in List %}
   <tr>
 	<td>{{ lst.id|safe }}</td>
 	<td><div style="color:blue" onclick='entry({{ lst.id }})'>{{ lst.title }}</div></td>
   </tr>
+  </tbody>
   {% endfor %}
 </table>
 {% endblock %}
