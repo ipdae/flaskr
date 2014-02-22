@@ -12,11 +12,6 @@
   </dl>
 </form>
 {% endif %}
-<script type="text/javascript">
-  function entry(id) {
-  location.href='/entry?id='+id;
-  }
-</script>
 <table class=List width="100%" border="1">
   <thead>
 	<tr>
@@ -28,7 +23,7 @@
 	{% for lst in List %}
 	<tr>
 	  <td>{{ lst.id|safe }}</td>
-	  <td><div style="color:blue" onclick='entry({{ lst.id }})'>{{ lst.title }}</div></td>
+	  <td><a href='{{ url_for('show_entries', id=lst.id) }}'>{{ lst.title }}</a></td>
 	</tr>
   </tbody>
   {% endfor %}
