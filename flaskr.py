@@ -35,9 +35,11 @@ def show_list():
 
 @app.route('/entry')
 def show_entries():
-    cur = g.db.execute('select id, title, text,password from entries where id = ?', [request.args['id']])
+    cur = g.db.execute('select id, title, text, password from entries where id = ?', [request.args['id']])
     entries = [dict(id = row[0], title=row[1], text=row[2], password=row[3]) for row in cur.fetchall()]
-    return render_template('show_entries.html', entries=entries)
+    cur2 = g.db.execute('select * from contents where entry_id = ?', [request.args['id']])
+    contents = [dict(id = row[0], entry_id=row[1], author=row[2], comment=row[3], password=row[4]) for row in cur2.fetchall()]
+    return render_template('show_entries.html', entries=entries, contents=contents)
 
 @app.route('/add', methods=['POST'])
 def add_entry():
@@ -94,6 +96,20 @@ def logout():
     session.pop('logged_in', None)
     flash('You were logged out')
     return redirect(url_for('show_list'))
+
+@app.route('/addComment', methods=['POST'])
+def add_comment():
+    g.db.execute('insert into contents (entry_id, author, comment, password) values (?, ?, ?, ?)', [request.args['id'], request.form['author'], request.form['comment'], request.form['password']])
+    g.db.commit()
+    flash('New comment was successfully posted')
+    return redirect(url_for('show_entries', id=request.args['id']))
+
+@app.route('/delComment')
+def del_comment():
+    g.db.execute('delete from contents where id = ?', [request.args['id']])
+    g.db.commit()
+    flash('Delete comment success')
+    return redirect(url_for('show_entries', id=request.args['id']))
 
 if __name__ == '__main__':
     app.debug = True
