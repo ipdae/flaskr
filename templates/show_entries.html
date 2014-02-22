@@ -1,17 +1,6 @@
 {% extends "layout.html" %}
 {% block body %}
 {% if session.logged_in %}
-<form action ="{{ url_for('add_entry') }}" method=post class=add-entry>
-  <dl>
-	<dt>Title:
-	  <dd><input type=text size=30 name=title>
-		<dt>Text:
-		  <dd><textarea name=text rows=5 cols=40></textarea>
-		  	<dt>Password: <input type=text size=5 name=pw>
-			  <dd><input type=submit value=Share>
-  </dl>
-</form>
-{% endif %}
 <script type="text/javascript">
   function del(id, pw) {
   var answer = prompt("password");
@@ -21,14 +10,20 @@
 </script>
 <ul class=entries>
   {% for entry in entries %}
-  <li><form action="{{ url_for('edit_entry',id=entry.id) }}" method=post class=eidt-entry>
-	  <h2>Title: <input type=text name=title value={{ entry.title }}>
-		<input type=button value=Delete onclick='del({{ entry.id|tojson|safe }}, {{ entry.password|tojson|safe }})'></h2>
-	  Text: <input type=text name=text value={{ entry.text|safe }}>
-	  Password: <input type=text name=PW size=5>
-	  <input type=submit value=Edit></form></li>
-	{% else %}
+  <dl><form action="{{ url_for('edit_entry',id=entry.id) }}" method=post class=eidt-entry>
+	  <dt>Title:</dt>
+	  <dd><input type=text name=title value={{ entry.title }}></dd>
+	  <dt>Text:</dt>
+	  <dd><input type=text name=text value={{ entry.text|safe }}></dd>
+	  <dt>Password:</dt>
+	  <dd><input type=text name=PW size=5></dd>
+	  <input type=button value=Delete onclick='del({{ entry.id|tojson|safe }}, {{ entry.password|tojson|safe }})'>
+	  <input type=submit value=Edit></form></dl>
+  {% else %}
   <li><em>Unbelievable. No entries here so far</em></li>
-	{% endfor %}
+  {% endfor %}
 </ul>
+{% else %}
+you must login first
+{% endif %}
 {% endblock %}

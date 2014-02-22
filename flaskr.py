@@ -28,8 +28,14 @@ def teardown_request(exception):
     g.db.close()
 
 @app.route('/')
+def show_list():
+    cur = g.db.execute('select id, title from entries order by id desc')
+    List = [dict(id = row[0], title=row[1]) for row in cur.fetchall()]
+    return render_template('show_list.html', List=List)
+
+@app.route('/entry')
 def show_entries():
-    cur = g.db.execute('select id, title, text,password from entries order by id desc')
+    cur = g.db.execute('select id, title, text,password from entries where id = ?', [request.args['id']])
     entries = [dict(id = row[0], title=row[1], text=row[2], password=row[3]) for row in cur.fetchall()]
     return render_template('show_entries.html', entries=entries)
 
@@ -40,7 +46,7 @@ def add_entry():
     g.db.execute('insert into entries (title, text, password) values (?, ?, ?)', [request.form['title'], request.form['text'], request.form['pw']])
     g.db.commit()
     flash('New entry was successfully posted')
-    return redirect(url_for('show_entries'))
+    return redirect(url_for('show_list'))
 
 @app.route('/del')
 def del_entry():
@@ -49,7 +55,7 @@ def del_entry():
     g.db.execute('delete from entries where id = ?', [request.args['id']])
     g.db.commit()
     flash('Delete entry success')
-    return redirect(url_for('show_entries'))
+    return redirect(url_for('show_list'))
 
 @app.route('/edit', methods=['POST'])
 def edit_entry():
@@ -63,7 +69,7 @@ def edit_entry():
         flash('Edit Sucess')
     else:
         flash('Invalid password')
-    return redirect(url_for('show_entries'))
+    return redirect(url_for('show_list'))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -80,14 +86,14 @@ def login():
             else:
                 session['logged_in'] = True
                 flash('You were logged in')
-                return redirect(url_for('show_entries'))
+                return redirect(url_for('show_list'))
     return render_template('login.html', error=error)
 
 @app.route('/logout')
 def logout():
     session.pop('logged_in', None)
     flash('You were logged out')
-    return redirect(url_for('show_entries'))
+    return redirect(url_for('show_list'))
 
 if __name__ == '__main__':
     app.debug = True
