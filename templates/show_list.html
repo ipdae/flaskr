@@ -4,11 +4,11 @@
 <form action="{{ url_for('add_entry') }}" method=post class=add-entry>
   <dl>
 	<dt>Title:</dt>
-	  <dd><input type=text size=30 name=title></dd>
-		<dt>Text:</dt>
-		  <dd><textarea name=text rows=5 cols=40></textarea></dd>
-			<dt>Password: <input type=text size=5 name=pw></dt>
-			  <dd><input type=submit value=Share></dd>
+	<dd><input type=text size=30 name=title></dd>
+	<dt>Text:</dt>
+	<dd><textarea name=text rows=5 cols=40></textarea></dd>
+	<dt>Password: <input type=text size=5 name=pw></dt>
+	<dd><input type=submit value=Share></dd>
   </dl>
 </form>
 {% endif %}
@@ -19,17 +19,17 @@
 </script>
 <table class=List width="100%" border="1">
   <thead>
-  <tr>
-	<th width="10%">ID</th>
-	<th>Title</th>
-  </tr>
+	<tr>
+	  <th width="10%">ID</th>
+	  <th>Title</th>
+	</tr>
   </thead>
   <tbody>
-  {% for lst in List %}
-  <tr>
-	<td>{{ lst.id|safe }}</td>
-	<td><div style="color:blue" onclick='entry({{ lst.id }})'>{{ lst.title }}</div></td>
-  </tr>
+	{% for lst in List %}
+	<tr>
+	  <td>{{ lst.id|safe }}</td>
+	  <td><div style="color:blue" onclick='entry({{ lst.id }})'>{{ lst.title }}</div></td>
+	</tr>
   </tbody>
   {% endfor %}
 </table>
