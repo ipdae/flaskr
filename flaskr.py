@@ -104,11 +104,18 @@ def add_comment():
     flash('New comment was successfully posted')
     return redirect(url_for('show_entries', id=request.args['id']))
 
-@app.route('/delComment')
+@app.route('/delComment', methods=['POST'])
 def del_comment():
-    g.db.execute('delete from contents where id = ?', [request.args['id']])
-    g.db.commit()
-    flash('Delete comment success')
+    password = request.form.get("pw")
+    cur = g.db.execute('select id, password from contents where id = ?', [request.args['id2']])
+    result = cur.fetchall()
+    print result, password
+    if int(password) != result[0][1]:
+        flash('Invalid password')
+    else:
+        g.db.execute('delete from contents where id = ?', [request.args['id2']])
+        g.db.commit()
+        flash('Delete comment success')
     return redirect(url_for('show_entries', id=request.args['id']))
 
 if __name__ == '__main__':
