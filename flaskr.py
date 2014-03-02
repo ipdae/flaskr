@@ -100,14 +100,14 @@ def logout():
 
 @app.route('/addComment', methods=['POST'])
 def add_comment():
-    g.db.execute('insert into contents (entry_id, author, comment, password) values (?, ?, ?, ?)', [request.args['id'], request.form['author'], request.form['comment'], request.form['password']])
+    g.db.execute('insert into contents (entry_id, author, comment, password) values (?, ?, ?, ?)', [request.args['id'], request.form['author'], request.form['comment'], request.form['addCommentPassword']])
     g.db.commit()
     flash('New comment was successfully posted')
     return redirect(url_for('show_entries', id=request.args['id']))
 
 @app.route('/delComment', methods=['POST'])
 def del_comment():
-    password = request.form.get("commentPassword")
+    password = request.form.get("delCommentPassword")
     cur = g.db.execute('select id, password from contents where id = ?', [request.args['id2']])
     result = cur.fetchall()
     if password != str(result[0][1]):

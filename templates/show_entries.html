@@ -28,7 +28,7 @@
 	<dl><form action="{{ url_for('del_comment', id=entry.id, id2=content.id) }}" method=post class=del-comment>
 		<dt>Author: {{ content.author }}</dt>
 		<dt>Comment: {{ content.comment }}
-		  <input type=hidden name=commentPassword id={{ content.id }}>
+		  <input type=hidden name=delCommentPassword id={{ content.id }}>
 		  <input type=submit value=Delete onclick='cDel({{ content.id }})'></dt></dl></form>
 	{% endfor %}
   <dl><form action="{{ url_for('add_comment', id=entry.id) }}" method=post class=add-comment>
@@ -36,7 +36,7 @@
 	  <dd><input type=text size=10 name=author></dd>
 	  <dt>Comment: </dt>
 	  <dd><textarea name=comment rows=3 cols=20></textarea></dd>
-	  <dt>Password: <input type=text size=5 name=password></dt>
+	  <dt>Password: <input type=text size=5 name=addCommentPassword></dt>
 	  <dd><input type=submit value=Share></dd>
   </dl> 
   </form>
