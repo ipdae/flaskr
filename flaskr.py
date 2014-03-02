@@ -72,7 +72,7 @@ def edit_entry():
         flash('Edit Sucess')
     else:
         flash('Invalid password')
-    return redirect(url_for('show_list'))
+    return redirect(url_for('show_entries', id=request.args['id']))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
