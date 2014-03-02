@@ -1,6 +1,7 @@
 from __future__ import with_statement
 from contextlib import closing
 import sqlite3
+import pdb
 from flask import Flask, request, session, g, redirect, url_for, abort, render_template, flash
 
 DATABASE = '/tmp/flaskr.db'
@@ -106,11 +107,10 @@ def add_comment():
 
 @app.route('/delComment', methods=['POST'])
 def del_comment():
-    password = request.form.get("pw")
+    password = request.form.get("commentPassword")
     cur = g.db.execute('select id, password from contents where id = ?', [request.args['id2']])
     result = cur.fetchall()
-    print result, password
-    if int(password) != result[0][1]:
+    if password != str(result[0][1]):
         flash('Invalid password')
     else:
         g.db.execute('delete from contents where id = ?', [request.args['id2']])

@@ -7,8 +7,9 @@
   if (answer == pw)
   location.href='/del?id='+id;
   }
-  function cDel(id, id2) {
-  location.href='/delComment?id='+id+'&id2='+id2;
+  function cDel(id) {
+  var password = prompt("password")
+  document.getElementById(id).value = password
   }
 </script>
 <ul class=entries>
@@ -22,15 +23,14 @@
 	  <dd><input type=text name=PW size=5></dd>
 	  <input type=button value=Delete onclick='del({{ entry.id|tojson|safe }}, {{ entry.password|tojson|safe }})'>
 	  <input type=submit value=Edit>
-	</form>
+	</form></dl>
 	{% for content in contents %}
 	<dl><form action="{{ url_for('del_comment', id=entry.id, id2=content.id) }}" method=post class=del-comment>
 		<dt>Author: {{ content.author }}</dt>
 		<dt>Comment: {{ content.comment }}
-		  <input type=password name=pw>
-		  <input type=submit value=Delete></dt></dl>
+		  <input type=hidden name=commentPassword id={{ content.id }}>
+		  <input type=submit value=Delete onclick='cDel({{ content.id }})'></dt></dl></form>
 	{% endfor %}
-  </form></dl>
   <dl><form action="{{ url_for('add_comment', id=entry.id) }}" method=post class=add-comment>
 	  <dt>Author: </dt>
 	  <dd><input type=text size=10 name=author></dd>
