@@ -20,7 +20,7 @@
 	  <dt>Text:</dt>
 	  <dd><input type=text name=text value={{ entry.text|safe }}></dd>
 	  <dt>Password:</dt>
-	  <dd><input type=text name=PW size=5></dd>
+	  <dd><input type=text name=entryPassword size=5></dd>
 	  <input type=button value=Delete onclick='del({{ entry.id|tojson|safe }}, {{ entry.password|tojson|safe }})'>
 	  <input type=submit value=Edit>
 	</form></dl>
