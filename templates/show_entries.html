@@ -2,8 +2,9 @@
 {% block body %}
 {% if session.logged_in %}
 <script type="text/javascript">
-  function edit(id) {
+  function edit(editType, id) {
   var password = prompt("password")
+  document.getElementById("editType").value = editType
   document.getElementById("entryPassword").value = password
   }
   function del(id, pw) {
@@ -24,8 +25,9 @@
 	  <dt>Text:</dt>
 	  <dd><input type=text name=text value={{ entry.text|safe }}></dd>
 	  <dt><input type=hidden name=entryPassword id=entryPassword></dt>
+	  <dt><input type=hidden name=editType id=editType></dt>
 	  <input type=button value=Delete onclick='del({{ entry.id|tojson|safe }}, {{ entry.password|tojson|safe }})' id=1>
-	  <input type=submit value=Edit onclick='edit("entryPassword")'>
+	  <input type=submit value=Edit onclick='edit("edit", "entryPassword")'>
 	</form></dl>
 	{% for content in contents %}
 	<dl><form action="{{ url_for('del_comment', id=entry.id, id2=content.id) }}" method=post class=del-comment>

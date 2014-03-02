@@ -66,14 +66,15 @@ def edit_entry():
         abort(401)
     cur = g.db.execute('select id, password from entries where id=?', [request.args['id']])
     result = cur.fetchall()
-    password = request.form.get("entryPassword")
-    print password
-    if request.form['entryPassword'] == str(result[0][1]):
-        g.db.execute('update entries set title=?, text=? where id=?', [request.form['title'], request.form['text'], request.args['id']])
-        g.db.commit()
-        flash('Edit Sucess')
-    else:
-        flash('Invalid password')
+    edit_type = request.form.get("editType")
+    print edit_type
+    if edit_type == "edit":
+        if request.form['entryPassword'] == str(result[0][1]):
+            g.db.execute('update entries set title=?, text=? where id=?', [request.form['title'], request.form['text'], request.args['id']])
+            g.db.commit()
+            flash('Edit Sucess')
+        else:
+            flash('Invalid password')
     return redirect(url_for('show_entries', id=request.args['id']))
 
 @app.route('/login', methods=['GET', 'POST'])
