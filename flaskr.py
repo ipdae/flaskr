@@ -66,6 +66,8 @@ def edit_entry():
         abort(401)
     cur = g.db.execute('select id, password from entries where id=?', [request.args['id']])
     result = cur.fetchall()
+    password = request.form.get("entryPassword")
+    print password
     if request.form['entryPassword'] == str(result[0][1]):
         g.db.execute('update entries set title=?, text=? where id=?', [request.form['title'], request.form['text'], request.args['id']])
         g.db.commit()
