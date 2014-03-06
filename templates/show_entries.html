@@ -2,15 +2,13 @@
 {% block body %}
 {% if session.logged_in %}
 <script type="text/javascript">
-  function edit(editType, id) {
+  function edit(id) {
   var password = prompt("password")
-  document.getElementById("editType").value = editType
-  document.getElementById("entryPassword").value = password
+  document.getElementById("entryPassword1").value = password
   }
-  function del(id, pw) {
-  var answer = prompt("password");
-  if (answer == pw)
-  location.href='/del?id='+id;
+  function del(id) {
+  var password = prompt("password")
+  document.getElementById("entryPassword2").value = password
   }
   function cDel(id) {
   var password = prompt("password")
@@ -24,11 +22,13 @@
 	  <dd><input type=text name=title value={{ entry.title }}></dd>
 	  <dt>Text:</dt>
 	  <dd><input type=text name=text value={{ entry.text|safe }}></dd>
-	  <dt><input type=hidden name=entryPassword id=entryPassword></dt>
-	  <dt><input type=hidden name=editType id=editType></dt>
-	  <input type=button value=Delete onclick='del({{ entry.id|tojson|safe }}, {{ entry.password|tojson|safe }})' id=1>
-	  <input type=submit value=Edit onclick='edit("edit", "entryPassword")'>
+	  <dt><input type=hidden name=entryPassword1 id=entryPassword1></dt>
+	  <input type=submit value=Edit onclick='edit({{ entry.id }})'>
 	</form></dl>
+  <form action="{{ url_for('del_entry', id=entry.id) }}" method=post class=del-entry>
+	<input type=hidden name=entryPassword2 id=entryPassword2>
+	<input type=submit value=Delete onclick='del({{ entry.id }})'>
+  </form>
 	{% for content in contents %}
 	<dl><form action="{{ url_for('del_comment', id=entry.id, id2=content.id) }}" method=post class=del-comment>
 		<dt>Author: {{ content.author }}</dt>
