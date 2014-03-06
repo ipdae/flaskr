@@ -51,31 +51,33 @@ def add_entry():
     flash('New entry was successfully posted')
     return redirect(url_for('show_list'))
 
-@app.route('/del')
-def del_entry():
-    if not session.get('logged_in'):
-        abort(401)
-    g.db.execute('delete from entries where id = ?', [request.args['id']])
-    g.db.commit()
-    flash('Delete entry success')
-    return redirect(url_for('show_list'))
-
 @app.route('/edit', methods=['POST'])
 def edit_entry():
     if not session.get('logged_in'):
         abort(401)
     cur = g.db.execute('select id, password from entries where id=?', [request.args['id']])
     result = cur.fetchall()
-    edit_type = request.form.get("editType")
-    print edit_type
-    if edit_type == "edit":
-        if request.form['entryPassword'] == str(result[0][1]):
-            g.db.execute('update entries set title=?, text=? where id=?', [request.form['title'], request.form['text'], request.args['id']])
-            g.db.commit()
-            flash('Edit Sucess')
-        else:
-            flash('Invalid password')
+    if request.form['entryPassword1'] == str(result[0][1]):
+        g.db.execute('update entries set title=?, text=? where id=?', [request.form['title'], request.form['text'], request.args['id']])
+        g.db.commit()
+        flash('Edit entry Sucess')
+    else:
+        flash('Invalid password')
     return redirect(url_for('show_entries', id=request.args['id']))
+
+@app.route('/del', methods=['POST'])
+def del_entry():
+    if not session.get('logged_in'):
+        abort(401)
+    cur = g.db.execute('select id, password from entries where id=?', [request.args['id']])
+    result = cur.fetchall()
+    if request.form['entryPassword2'] == str(result[0][1]):        
+        g.db.execute('delete from entries where id = ?', [request.args['id']])
+        g.db.commit()
+        flash('Delete entry success')
+    else:
+        flash('Invalid password')
+    return redirect(url_for('show_list'))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
