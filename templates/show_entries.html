@@ -16,7 +16,7 @@
   }
 </script>
 <ul class=entries>
-  {% for entry in entries %}
+  {% for entry in entries %} <!-- entry 생성 for-->
   <dl><form action="{{ url_for('edit_entry',id=entry.id) }}" method=post class=edit-entry>
 	  <dt>Title:</dt>
 	  <dd><input type=text name=title value={{ entry.title }}></dd>
@@ -24,18 +24,18 @@
 	  <dd><input type=text name=text value={{ entry.text|safe }}></dd>
 	  <dt><input type=hidden name=entryPassword1 id=entryPassword1></dt>
 	  <input type=submit value=Edit onclick='edit({{ entry.id }})'>
-	</form></dl>
+  </form></dl>
   <form action="{{ url_for('del_entry', id=entry.id) }}" method=post class=del-entry>
 	<input type=hidden name=entryPassword2 id=entryPassword2>
 	<input type=submit value=Delete onclick='del({{ entry.id }})'>
   </form>
-	{% for content in contents %}
-	<dl><form action="{{ url_for('del_comment', id=entry.id, id2=content.id) }}" method=post class=del-comment>
-		<dt>Author: {{ content.author }}</dt>
-		<dt>Comment: {{ content.comment }}
-		  <input type=hidden name=delCommentPassword id={{ content.id }}>
-		  <input type=submit value=Delete onclick='cDel({{ content.id }})'></dt></dl></form>
-	{% endfor %}
+  {% for comment in comments %} <!-- 댓글 for-->
+  <dl><form action="{{ url_for('del_comment', id=entry.id, id2=comment.id) }}" method=post class=del-comment>
+	  <dt>Author: {{ comment.author }}</dt>
+	  <dt>Comment: {{ comment.comment }}
+		<input type=hidden name=delCommentPassword id={{ comment.id }}>
+		<input type=submit value=Delete onclick='cDel({{ comment.id }})'></dt></dl></form>
+  {% endfor %} <!-- comment for end-->
   <dl><form action="{{ url_for('add_comment', id=entry.id) }}" method=post class=add-comment>
 	  <dt>Author: </dt>
 	  <dd><input type=text size=10 name=author></dd>
@@ -47,7 +47,7 @@
   </form>
   {% else %}
   <li><em>Unbelievable. No entries here so far</em></li>
-  {% endfor %}
+  {% endfor %} <!-- entry for end-->
 </ul>
 {% else %}
 you must login first
