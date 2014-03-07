@@ -38,9 +38,9 @@ def show_list():
 def show_entries():
     cur = g.db.execute('select id, title, text, password from entries where id = ?', [request.args['id']])
     entries = [dict(id = row[0], title=row[1], text=row[2], password=row[3]) for row in cur.fetchall()]
-    cur2 = g.db.execute('select * from contents where entry_id = ?', [request.args['id']])
-    contents = [dict(id = row[0], entry_id=row[1], author=row[2], comment=row[3], password=row[4]) for row in cur2.fetchall()]
-    return render_template('show_entries.html', entries=entries, contents=contents)
+    cur2 = g.db.execute('select * from comments where entry_id = ?', [request.args['id']])
+    comments = [dict(id = row[0], entry_id=row[1], author=row[2], comment=row[3], password=row[4]) for row in cur2.fetchall()]
+    return render_template('show_entries.html', entries=entries, comments=comments)
 
 @app.route('/add', methods=['POST'])
 def add_entry():
@@ -105,7 +105,7 @@ def logout():
 
 @app.route('/addComment', methods=['POST'])
 def add_comment():
-    g.db.execute('insert into contents (entry_id, author, comment, password) values (?, ?, ?, ?)', [request.args['id'], request.form['author'], request.form['comment'], request.form['addCommentPassword']])
+    g.db.execute('insert into comments (entry_id, author, comment, password) values (?, ?, ?, ?)', [request.args['id'], request.form['author'], request.form['comment'], request.form['addCommentPassword']])
     g.db.commit()
     flash('New comment was successfully posted')
     return redirect(url_for('show_entries', id=request.args['id']))
@@ -113,12 +113,12 @@ def add_comment():
 @app.route('/delComment', methods=['POST'])
 def del_comment():
     password = request.form.get("delCommentPassword")
-    cur = g.db.execute('select id, password from contents where id = ?', [request.args['id2']])
+    cur = g.db.execute('select id, password from comments where id = ?', [request.args['id2']])
     result = cur.fetchall()
     if password != str(result[0][1]):
         flash('Invalid password')
     else:
-        g.db.execute('delete from contents where id = ?', [request.args['id2']])
+        g.db.execute('delete from comments where id = ?', [request.args['id2']])
         g.db.commit()
         flash('Delete comment success')
     return redirect(url_for('show_entries', id=request.args['id']))

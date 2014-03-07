@@ -14,7 +14,7 @@ create table logins (
 );
 
 drop table if exists contents;
-create table contents (
+create table comments (
 	   id integer primary key autoincrement,
 	   entry_id integer not null,
 	   author string not null,
