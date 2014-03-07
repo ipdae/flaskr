@@ -60,7 +60,7 @@ def edit_entry():
     if request.form['entryPassword1'] == str(result[0][1]):
         g.db.execute('update entries set title=?, text=? where id=?', [request.form['title'], request.form['text'], request.args['id']])
         g.db.commit()
-        flash('Edit entry Sucess')
+        flash('Edit entry Success')
     else:
         flash('Invalid password')
     return redirect(url_for('show_entries', id=request.args['id']))
