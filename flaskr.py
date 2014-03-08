@@ -37,9 +37,12 @@ def show_list():
 @app.route('/entry')
 def show_entries():
     cur = g.db.execute('select id, title, text, password from entries where id = ?', [request.args['id']])
-    entries = [dict(id = row[0], title=row[1], text=row[2], password=row[3]) for row in cur.fetchall()]
+    entries = cur.fetchone()
+    print entries
+    entries = dict(id=entries[0], title=entries[1], text=entries[2], password=entries[3])
     cur2 = g.db.execute('select * from comments where entry_id = ?', [request.args['id']])
     comments = [dict(id = row[0], entry_id=row[1], author=row[2], comment=row[3], password=row[4]) for row in cur2.fetchall()]
+    print entries
     return render_template('show_entries.html', entries=entries, comments=comments)
 
 @app.route('/add', methods=['POST'])
