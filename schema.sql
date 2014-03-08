@@ -13,5 +13,14 @@ create table logins (
 	   password string not null
 );
 
+drop table if exists contents;
+create table comments (
+	   id integer primary key autoincrement,
+	   entry_id integer not null,
+	   author string not null,
+	   comment string not null,
+	   password string not null
+);
+
 insert into logins (username, password)
 values ('admin', 'default');
