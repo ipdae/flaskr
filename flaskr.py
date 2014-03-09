@@ -35,15 +35,15 @@ def show_list():
     return render_template('show_list.html', List=List)
 
 @app.route('/entry')
-def show_entries():
+def show_entry():
     cur = g.db.execute('select id, title, text, password from entries where id = ?', [request.args['id']])
-    entries = cur.fetchone()
-    print entries
-    entries = dict(id=entries[0], title=entries[1], text=entries[2], password=entries[3])
+    entry = cur.fetchone()
+    print entry
+    entry = dict(id=entry[0], title=entry[1], text=entry[2], password=entry[3])
     cur2 = g.db.execute('select * from comments where entry_id = ?', [request.args['id']])
     comments = [dict(id = row[0], entry_id=row[1], author=row[2], comment=row[3], password=row[4]) for row in cur2.fetchall()]
-    print entries
-    return render_template('show_entries.html', entries=entries, comments=comments)
+    print entry
+    return render_template('show_entry.html', entry=entry, comments=comments)
 
 @app.route('/add', methods=['POST'])
 def add_entry():
@@ -66,7 +66,7 @@ def edit_entry():
         flash('Edit entry Success')
     else:
         flash('Invalid password')
-    return redirect(url_for('show_entries', id=request.args['id']))
+    return redirect(url_for('show_entry', id=request.args['id']))
 
 @app.route('/del', methods=['POST'])
 def del_entry():
