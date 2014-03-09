@@ -2,17 +2,18 @@
 {% block body %}
 {% if session.logged_in %}
 <script type="text/javascript">
-  function entryEdit() {
+  function edit() {
   var password = prompt("password")
   $("#entryPassword1").val(password)
   }
-  $(document).ready(function(){
-  $("#edit_entry").click(entryEdit);
-  })
-  function del(id) {
+  function del() {
   var password = prompt("password")
   $("#entryPassword2").val(password)
   }
+  $(document).ready(function(){
+  $("#edit_entry").click(edit);
+  $("#del_entry").click(del);
+  })
   function cDel(id) {
   var password = prompt("password")
   $("#"+id).val(password)
@@ -29,7 +30,7 @@
   </form></dl>
   <form action="{{ url_for('del_entry', id=entry.id) }}" method=post class=del-entry>
 	<input type=hidden name=entryPassword2 id=entryPassword2>
-	<input type=submit value=Delete onclick='del({{ entry.id }})'>
+	<input type=submit value=Delete id=del_entry>
   </form>
   {% for comment in comments %} <!-- 댓글 for-->
   <dl><form action="{{ url_for('del_comment', id=entry.id, id2=comment.id) }}" method=post class=del-comment>
