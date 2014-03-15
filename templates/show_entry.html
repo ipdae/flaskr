@@ -2,24 +2,30 @@
 {% block body %}
 {% if session.logged_in %}
 <script type="text/javascript">
-  function edit(event) {
+  function entryEdit(event) {
   var password = prompt("password")
   $("#entryPassword1").val(password)
   }
-  function del(event) {
+  function entryDelete(event) {
   var password = prompt("password")
   $("#entryPassword2").val(password)
   }
-  function cDel(event) {
+  function commentDelete(event) {
   var password = prompt("password")
   if (password != "") {
   $(this).find("[name=delCommentPassword]").val(password)
   }
   }
+  function commentLength(event) {
+  var i = $("[name=comment]").val().length;
+  $("#comment").html(i + "/ 80")
+  }
   $(document).ready(function(){
-  $("#edit_entry").click(edit);
-  $("#del_entry").click(del);
-  $(".del-comment").submit(cDel);
+  $("#edit_entry").click(entryEdit);
+  $("#del_entry").click(entryDelete);
+  $(".del-comment").submit(commentDelete);
+  $("[name=comment]").keyup(commentLength);
+  $("[name=comment]").change(commentLength);
   })
 </script>
 <ul class=entry>
@@ -46,7 +52,8 @@
 	  <dt>Author: </dt>
 	  <dd><input type=text size=10 name=author></dd>
 	  <dt>Comment: </dt>
-	  <dd><textarea name=comment rows=3 cols=20></textarea></dd>
+	  <dd><textarea name=comment rows=3 cols=20></textarea>
+		<p><div id=comment>/ 80</div></p></dd>
 	  <dt>Password: <input type=text size=5 name=addCommentPassword></dt>
 	  <dd><input type=submit value=Share></dd>
   </dl> 
