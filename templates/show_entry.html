@@ -28,37 +28,53 @@
   $("[name=comment]").change(commentLength);
   })
 </script>
-<ul class=entry>
-  <dl><form action="{{ url_for('edit_entry',id=entry.id) }}" method=post class=edit-entry>
-	  <dt>Title:</dt>
-	  <dd><input type=text name=title value={{ entry["title"] }}></dd>
-	  <dt>Text:</dt>
-	  <dd><input type=text name=text value={{ entry["text"]|safe }}></dd>
-	  <dt><input type=hidden name=entryPassword1 id=entryPassword1></dt>
-	  <input type=submit value=Edit id=edit_entry>
-  </form></dl>
-  <form action="{{ url_for('del_entry', id=entry.id) }}" method=post class=del-entry>
-	<input type=hidden name=entryPassword2 id=entryPassword2>
-	<input type=submit value=Delete id=del_entry>
-  </form>
+<form action="{{ url_for('edit_entry',id=entry.id) }}" method=post class=edit-entry role=form>
+  <div class=entry-title>
+	<label>Title:</label>
+	<input type=text name=title value={{ entry["title"] }}>
+  </div>
+  <div class=entry-text>
+	<label>Text:</label>
+	<input type=text name=text value={{ entry["text"]|safe }}>
+  </div>
+  <div class=entry-buttons>
+	<input type=hidden name=entryPassword1 id=entryPassword1>
+	<input type=submit value=Edit id=edit_entry>
+</form>
+<form action="{{ url_for('del_entry', id=entry.id) }}" method=post class=del-entry>
+  <input type=hidden name=entryPassword2 id=entryPassword2>
+  <input type=submit value=Delete id=del_entry> <!-- fix me-->
+</form></div>
+<hr> <!-- fix me-->
   {% for comment in comments %} <!-- 댓글 for-->
-  <dl><form action="{{ url_for('del_comment', id=entry.id, id2=comment.id) }}" method=post class=del-comment>
-	  <dt>Author: {{ comment.author }}</dt>
-	  <dt>Comment: {{ comment.comment }}
-		<input type=hidden name=delCommentPassword id={{ comment.id }}>
-		<input type=submit value=Delete id=del_comment name=button></dt></dl></form>
-  {% endfor %} <!-- comment for end-->
-  <dl><form action="{{ url_for('add_comment', id=entry.id) }}" method=post class=add-comment>
-	  <dt>Author: </dt>
-	  <dd><input type=text size=10 name=author></dd>
-	  <dt>Comment: </dt>
-	  <dd><textarea name=comment rows=3 cols=20></textarea>
-		<p><div id=comment>/ 80</div></p></dd>
-	  <dt>Password: <input type=text size=5 name=addCommentPassword></dt>
-	  <dd><input type=submit value=Share></dd>
-  </dl> 
-  </form>
-</ul>
+<form action="{{ url_for('del_comment', id=entry.id, id2=comment.id) }}" method=post class=del-comment role=form>
+  <div class=del-comment-author>
+	<label>Author: {{ comment.author }}</label>
+  </div>
+  <div class=del-comment-comment>
+	<label>Comment: {{ comment.comment }}</label>
+	<input type=hidden name=delCommentPassword id={{ comment.id }}>
+	<input type=submit value=Delete id=del_comment name=button>
+  </div>
+</form>
+<hr> <!-- fix me-->
+{% endfor %} <!-- comment for end-->
+<form action="{{ url_for('add_comment', id=entry.id) }}" method=post class=add-comment role=form>
+  <div class=add-comment-author>
+	<label>Author: </label>
+	<input type=text size=10 name=author>
+  </div>
+  <div class=add-comment-comment>
+	<label>Comment: </label>
+	<p>
+	<textarea name=comment rows=3 cols=20></textarea>
+	</p>
+	<div id=comment> / 80</div>
+	<label>Password: 
+	  <input type=text size=5 name=addCommentPassword></label>
+	<input type=submit value=Share>
+  </div>
+</form>
 {% else %}
 you must login first
 {% endif %}
