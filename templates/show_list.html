@@ -1,18 +1,24 @@
 {% extends "layout.html" %}
 {% block body %}
 {% if session.logged_in %}
-<form action="{{ url_for('add_entry') }}" method=post class=add-entry>
-  <dl>
-	<dt>Title:</dt>
-	<dd><input type=text size=30 name=title></dd>
-	<dt>Text:</dt>
-	<dd><textarea name=text rows=5 cols=40></textarea></dd>
-	<dt>Password: <input type=text size=5 name=pw></dt>
-	<dd><input type=submit value=Share></dd>
-  </dl>
+<form action="{{ url_for('add_entry') }}" method=post class=add-entry role=form>
+  <div class=entry-title>
+	<label>Title:</label>
+	<input type=text size=30 name=title>
+  </div>
+  <div class=entry-text>
+	<label>Text:</label>
+  </div>
+  <textarea name=text rows=5 cols=40></textarea>
+  <div>
+	<label>Password:</label>
+	<input type=text size=5 name=pw>
+	<input type=submit value=Share>
+  </div>
 </form>
 {% endif %}
-<table class=List width="100%" border="1">
+<br>
+<table class="table table-bordered">
   <thead>
 	<tr>
 	  <th width="10%">ID</th>

@@ -41,13 +41,13 @@
 	<input type=hidden name=entryPassword1 id=entryPassword1>
 	<input type=submit value=Edit id=edit_entry>
 </form>
-<form action="{{ url_for('del_entry', id=entry.id) }}" method=post class=del-entry>
+<form action="{{ url_for('del_entry', id=entry.id) }}" method=post class=del-entry style="display: inline;">
   <input type=hidden name=entryPassword2 id=entryPassword2>
-  <input type=submit value=Delete id=del_entry> <!-- fix me-->
+  <input type=submit value=Delete id=del_entry>
 </form></div>
-<hr> <!-- fix me-->
+<br>
   {% for comment in comments %} <!-- 댓글 for-->
-<form action="{{ url_for('del_comment', id=entry.id, id2=comment.id) }}" method=post class=del-comment role=form>
+<form action="{{ url_for('del_comment', id=entry.id, id2=comment.id) }}" method=post class=del-comment role=form style="border-bottom-style: solid; border-width: 1px">
   <div class=del-comment-author>
 	<label>Author: {{ comment.author }}</label>
   </div>
@@ -57,19 +57,21 @@
 	<input type=submit value=Delete id=del_comment name=button>
   </div>
 </form>
-<hr> <!-- fix me-->
+<br>
 {% endfor %} <!-- comment for end-->
-<form action="{{ url_for('add_comment', id=entry.id) }}" method=post class=add-comment role=form>
+<br>
+<form action="{{ url_for('add_comment', id=entry.id) }}" method=pos
+t class=add-comment role=form>
   <div class=add-comment-author>
 	<label>Author: </label>
 	<input type=text size=10 name=author>
   </div>
   <div class=add-comment-comment>
 	<label>Comment: </label>
-	<p>
+	<div>
 	<textarea name=comment rows=3 cols=20></textarea>
-	</p>
-	<div id=comment> / 80</div>
+	<span id=comment> / 80</span>
+	</div>
 	<label>Password: 
 	  <input type=text size=5 name=addCommentPassword></label>
 	<input type=submit value=Share>
