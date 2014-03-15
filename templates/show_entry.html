@@ -39,11 +39,11 @@
   </div>
   <div class=entry-buttons>
 	<input type=hidden name=entryPassword1 id=entryPassword1>
-	<input type=submit value=Edit id=edit_entry>
+	<button type="submit" id=edit_entry class="btn btn-default">Edit</button>
 </form>
 <form action="{{ url_for('del_entry', id=entry.id) }}" method=post class=del-entry style="display: inline;">
   <input type=hidden name=entryPassword2 id=entryPassword2>
-  <input type=submit value=Delete id=del_entry>
+  <button type="submit" class="btn btn-primary" id=del_entry>Delete</button>
 </form></div>
 <br>
   {% for comment in comments %} <!-- 댓글 for-->
@@ -54,7 +54,7 @@
   <div class=del-comment-comment>
 	<label>Comment: {{ comment.comment }}</label>
 	<input type=hidden name=delCommentPassword id={{ comment.id }}>
-	<input type=submit value=Delete id=del_comment name=button>
+	<button type="submit" class="btn btn-success" id=del_comment name=button>Delete</button>
   </div>
 </form>
 <br>
@@ -74,7 +74,7 @@ t class=add-comment role=form>
 	</div>
 	<label>Password: 
 	  <input type=text size=5 name=addCommentPassword></label>
-	<input type=submit value=Share>
+	<button type="submit" class="btn btn-info">Share</button>
   </div>
 </form>
 {% else %}
