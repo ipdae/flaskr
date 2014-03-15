@@ -2,11 +2,11 @@
 {% block body %}
 {% if session.logged_in %}
 <script type="text/javascript">
-  function edit() {
+  function edit(event) {
   var password = prompt("password")
   $("#entryPassword1").val(password)
   }
-  function del() {
+  function del(event) {
   var password = prompt("password")
   $("#entryPassword2").val(password)
   }
