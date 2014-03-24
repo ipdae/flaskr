@@ -28,52 +28,52 @@
   $("[name=comment]").change(commentLength);
   })
 </script>
-<form action="{{ url_for('edit_entry',id=entry.id) }}" method=post class=edit-entry role=form>
-  <div class=entry-title>
+<form action="{{ url_for('edit_entry',id=entry.id) }}" method="post" class="edit-entry" role="form">
+  <div class="entry-title">
 	<label>Title:</label>
-	<input type=text name=title value={{ entry["title"] }}>
+	<input type="text" name="title" value="{{ entry["title"] }}">
   </div>
-  <div class=entry-text>
+  <div class="entry-text">
 	<label>Text:</label>
-	<input type=text name=text value={{ entry["text"]|safe }}>
+	<input type="text" name="text" value="{{ entry["text"]|safe }}">
   </div>
-  <div class=entry-buttons>
-	<input type=hidden name=entryPassword1 id=entryPassword1>
+  <div class="entry-buttons">
+	<input type="hidden" name="entryPassword1" id="entryPassword1">
 	<button type="submit" id=edit_entry class="btn btn-default">Edit</button>
 </form>
-<form action="{{ url_for('del_entry', id=entry.id) }}" method=post class=del-entry style="display: inline;">
-  <input type=hidden name=entryPassword2 id=entryPassword2>
-  <button type="submit" class="btn btn-primary" id=del_entry>Delete</button>
-</form></div>
+<form action="{{ url_for('del_entry', id=entry.id) }}" method="post" class="del-entry" style="display: inline;">
+  <input type="hidden" name="entryPassword2" id="entryPassword2">
+  <button type="submit" class="btn btn-primary" id="del_entry">Delete</button>
+</form>
+</div>
 <br>
   {% for comment in comments %} <!-- 댓글 for-->
-<form action="{{ url_for('del_comment', id=entry.id, id2=comment.id) }}" method=post class=del-comment role=form style="border-bottom-style: solid; border-width: 1px">
-  <div class=del-comment-author>
+<form action="{{ url_for('del_comment', id=entry.id, id2=comment.id) }}" method="post" class="del-comment" role="form" style="border-bottom-style: solid; border-width: 1px">
+  <div class="del-comment-author">
 	<label>Author: {{ comment.author }}</label>
   </div>
-  <div class=del-comment-comment>
+  <div class="del-comment-comment">
 	<label>Comment: {{ comment.comment }}</label>
-	<input type=hidden name=delCommentPassword id={{ comment.id }}>
-	<button type="submit" class="btn btn-success" id=del_comment name=button>Delete</button>
+	<input type="hidden" name="delCommentPassword" id="{{ comment.id }}">
+	<button type="submit" class="btn btn-success" id="del_comment" name="button">Delete</button>
   </div>
 </form>
 <br>
 {% endfor %} <!-- comment for end-->
 <br>
-<form action="{{ url_for('add_comment', id=entry.id) }}" method=pos
-t class=add-comment role=form>
-  <div class=add-comment-author>
+<form action="{{ url_for('add_comment', id=entry.id) }}" method="post" class="add-comment" role="form">
+  <div class="add-comment-author">
 	<label>Author: </label>
-	<input type=text size=10 name=author>
+	<input type="text" size="10" name="author">
   </div>
-  <div class=add-comment-comment>
+  <div class="add-comment-comment">
 	<label>Comment: </label>
 	<div>
-	<textarea name=comment rows=3 cols=20></textarea>
-	<span id=comment> / 80</span>
+	<textarea name="comment" rows="3" cols="20"></textarea>
+	<span id="comment"> / 80</span>
 	</div>
 	<label>Password: 
-	  <input type=text size=5 name=addCommentPassword></label>
+	  <input type="text" size="5" name="addCommentPassword"></label>
 	<button type="submit" class="btn btn-info">Share</button>
   </div>
 </form>
