@@ -1,20 +1,22 @@
 {% extends "layout.html" %}
 {% block body %}
 {% if session.logged_in %}
-<form action="{{ url_for('add_entry') }}" method=post class=add-entry role=form>
-  <div class=entry-title>
+<form action="{{ url_for('add_entry') }}" method="post" class="add-entry" role="form">
+  <br>
+  <div class="entry-title">
 	<label>Title:</label>
-	<input type=text size=30 name=title>
+	<input type="text" size="30" name="title">
   </div>
-  <div class=entry-text>
+  <div class="entry-text">
 	<label>Text:</label>
   </div>
-  <textarea name=text rows=5 cols=40></textarea>
+  <textarea name="text" rows="5" cols="40"></textarea>
   <div>
 	<label>Password:</label>
-	<input type=text size=5 name=pw>
+	<input type="text" size="5" name="pw">
 	<button type="submit" class="btn btn-warning">Share</button>
   </div>
+  <br>
 </form>
 {% endif %}
 <br>
