@@ -10,9 +10,9 @@
   <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
   <!-- Latest compiled and minified JavaScript -->
   <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-  <div class=page>
+  <div class="page">
 	<h1>Flaskr</h1>
-	<div class=metanav>
+	<div class="metanav">
 	  {% if not session.logged_in %}
 	  <a href="{{ url_for('login') }}"}>log in</a>
 	  {% else %}
@@ -20,7 +20,7 @@
 	  {% endif %}
 	</div>
 	{% for message in get_flashed_messages() %}
-	<div class =flash>{{ message }}</div>
+	<div class="flash">{{ message }}</div>
 	{% endfor %}
 	{% block body %}{% endblock %}
   </div>
