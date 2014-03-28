@@ -39,7 +39,7 @@
   </div>
   <div class="entry-buttons">
 	<input type="hidden" name="entryPassword1" id="entryPassword1">
-	<button type="submit" id=edit_entry class="btn btn-default">Edit</button>
+	<button type="submit" id="edit_entry" class="btn btn-default">Edit</button>
 </form>
 <form action="{{ url_for('del_entry', id=entry.id) }}" method="post" class="del-entry" style="display: inline;">
   <input type="hidden" name="entryPassword2" id="entryPassword2">
@@ -57,8 +57,8 @@
 	<input type="hidden" name="delCommentPassword" id="{{ comment.id }}">
 	<button type="submit" class="btn btn-success" id="del_comment" name="button">Delete</button>
   </div>
+  <br>
 </form>
-<br>
 {% endfor %} <!-- comment for end-->
 <br>
 <form action="{{ url_for('add_comment', id=entry.id) }}" method="post" class="add-comment" role="form">
@@ -77,6 +77,9 @@
 	<button type="submit" class="btn btn-info">Share</button>
   </div>
 </form>
+<div class="text-right">
+  <a class="btn btn-default" href="{{ url_for('show_list') }}" role="button">List</button>
+</div>
 {% else %}
 you must login first
 {% endif %}
