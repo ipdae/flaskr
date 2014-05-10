@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+{% block body %}
+{% if session.logged_in %}
+<form action="{{ url_for('add_entry') }}" method="post" class="add-entry" role="form">
+  <br>
+  <div class="entry-title">
+	<label>Title:</label>
+	<input type="text" size="30" name="title">
+  </div>
+  <div class="entry-text">
+	<label>Text:</label>
+  </div>
+  <textarea name="text" rows="5" cols="40"></textarea>
+  <div>
+	<label>Password:</label>
+	<input type="text" size="5" name="pw">
+	<button type="submit" class="btn btn-warning">Share</button>
+  </div>
+  <br>
+</form>
+{% endif %}
+<br>
+<table class="table table-bordered text-center">
+  <thead>
+	<tr>
+	  <th class="text-center" width="10%">ID</th>
+	  <th class="text-center">Title</th>
+	</tr>
+  </thead>
+  <tbody>
+	{% for lst in List %}
+	<tr>
+	  <td>{{ lst.id|safe }}</td>
+	  <td><a href='{{ url_for('show_entry', id=lst.id) }}'>{{ lst.title }}</a></td>
+	</tr>
+  </tbody>
+  {% endfor %}
+</table>
+{% endblock %}
