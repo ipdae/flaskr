@@ -1,0 +1,11 @@
+Flask==0.10.1
+Flask-SQLAlchemy==1.0
+Jinja2==2.7.2
+MarkupSafe==0.23
+SQLAlchemy==0.9.4
+Werkzeug==0.9.4
+argparse==1.2.1
+-e git+git@github.com:ipdae/flaskr.git@4e90a452bba1c1fd24dd3d575c8fdfcc26803c2a#egg=flaskr-heroku/master
+gunicorn==18.0
+itsdangerous==0.24
+wsgiref==0.1.2
