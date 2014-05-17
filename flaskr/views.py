@@ -19,8 +19,8 @@ def login():
         else:
             session['logged_in'] = True
             flash('You were logged in')
-            return redirect(url_for('show_list'))
-        return render_template('login.html', error=error)
+        return redirect(url_for('show_list'))
+    return render_template('login.html', error=error)
 
 @app.route('/logout')
 def logout():
