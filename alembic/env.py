@@ -7,11 +7,13 @@ sys.path.insert(0, os.getcwd())
 from alembic import context
 from sqlalchemy import engine_from_config, pool
 from logging.config import fileConfig
+from flaskr.database import url
 from flaskr.models import Base
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
+config.set_main_option('sqlalchemy.url', url)
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
@@ -40,7 +42,6 @@ def run_migrations_offline():
     script output.
 
     """
-    url = config.get_main_option("sqlalchemy.url")
     context.configure(url=url, target_metadata=target_metadata)
 
     with context.begin_transaction():
