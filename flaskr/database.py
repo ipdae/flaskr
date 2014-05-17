@@ -1,8 +1,11 @@
+import os
 from sqlalchemy import create_engine, Table
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
-engine = create_engine('postgresql://postgres@localhost:5432/flaskr', convert_unicode=True)
+url = os.environ.get('DATABASE_URL', 'postgresql://postgres@localhost:5432/flaskr')
+
+engine = create_engine(url, convert_unicode=True)
 db_session = scoped_session(sessionmaker(autocommit=False,
                                          autoflush=False,
                                          bind=engine))
