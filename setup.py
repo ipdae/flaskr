@@ -22,5 +22,6 @@ setup(
         "Topic :: Utilities",
         "License :: OSI Approved :: BSD License",
     ],
-    install_requires = ["flask", "flask-sqlalchemy"],
+    install_requires = ["flask", "flask-sqlalchemy", "psycopg2"],
 )
+
