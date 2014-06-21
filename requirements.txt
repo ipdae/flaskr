@@ -7,7 +7,6 @@ SQLAlchemy==0.9.4
 Werkzeug==0.9.4
 alembic==0.6.5
 argparse==1.2.1
--e git+git@github.com:ipdae/flaskr.git@2cce3aabb8062259440c0231af1ee6c9ab76fff8#egg=flaskr-worker
 gunicorn==18.0
 itsdangerous==0.24
 psycopg2==2.5.3
