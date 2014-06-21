@@ -7,10 +7,11 @@ SQLAlchemy==0.9.4
 Werkzeug==0.9.4
 alembic==0.6.5
 argparse==1.2.1
--e git+git@github.com:ipdae/flaskr.git@027e9dffc7b4df57f252c266aca359d452363125#egg=flaskr-heroku/master
+-e git+git@github.com:ipdae/flaskr.git@2cce3aabb8062259440c0231af1ee6c9ab76fff8#egg=flaskr-worker
 gunicorn==18.0
 itsdangerous==0.24
 psycopg2==2.5.3
 redis==2.10.1
+requests==2.3.0
 rq==0.4.6
 wsgiref==0.1.2
