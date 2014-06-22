@@ -2,6 +2,13 @@ from flaskr import app
 from flaskr.database import db_session
 from flaskr.models import Login, Entry, Comment
 from flask import Flask, request, session, g, redirect, url_for, abort, render_template, flash
+from rq import Queue
+from worker import conn
+from utils import count_words_at_url
+from flaskext.mail import Mail, Message
+
+mail = Mail(app)
+q = Queue(connection=conn)
 
 @app.route('/')
 def show_list():
@@ -100,3 +107,11 @@ def del_comment():
         db_session.commit()
         flash('Delete comment success')
     return redirect(url_for('show_entry', id=request.args['id']))
+
+@app.route('/worker')
+def worker_test():
+    result = q.enqueue(count_words_at_url, 'http://heroku.com')
+    msg = Message(str(request.form['result']), sender="qooraven@gmail.com", recipients=[str(request.form['emailAddress'])])
+    mail.send(msg)
+    flash('check your e-mail')
+    return(url_for('show_list'))
