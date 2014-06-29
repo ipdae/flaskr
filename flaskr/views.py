@@ -5,7 +5,7 @@ from flask import Flask, request, session, g, redirect, url_for, abort, render_t
 from rq import Queue
 from worker import conn
 from utils import count_words_at_url
-from flaskext.mail import Mail, Message
+from flask.ext.mail import Mail, Message
 
 mail = Mail(app)
 q = Queue(connection=conn)
@@ -108,10 +108,13 @@ def del_comment():
         flash('Delete comment success')
     return redirect(url_for('show_entry', id=request.args['id']))
 
-@app.route('/worker')
-def worker_test():
-    result = q.enqueue(count_words_at_url, 'http://heroku.com')
-    msg = Message(str(request.form['result']), sender="qooraven@gmail.com", recipients=[str(request.form['emailAddress'])])
-    mail.send(msg)
+@app.route('/worker', methods=['GET', 'POST'])
+def worker():
+    return render_template('send_mail.html')
+
+@app.route('/send', methods=['GET', 'POST'])
+def send():
+    working = q.enqueue(count_words_at_url, 'http://heroku.com', str(request.form['mailAddress']))
     flash('check your e-mail')
-    return(url_for('show_list'))
+    return redirect(url_for('show_list'))
+
