@@ -144,7 +144,7 @@ def facebook_authorized(resp):
     cur = db_session.query(FacebookLogin).filter(FacebookLogin.email==me.data['email']).all()
     if len(cur) != 0:
         session['facebook_logged_in'] = True
-        flash('Logged in as email=%s' % me.data['email']) 
+        flash('Logged in as email %s' % me.data['email']) 
     else:
         flash('please check your email address')
     return redirect(url_for('show_list'))
