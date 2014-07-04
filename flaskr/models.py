@@ -41,3 +41,10 @@ class Comment(Base):
         self.comment = comment
         self.password = password
 
+class FacbookLogin(Base):
+    __tablename__= 'facebooklogins'
+    id = Column(Integer, primary_key=True)
+    email = Column(String(50), unique=True)
+    
+    def __init__(self, email=None):
+        self.email = email
