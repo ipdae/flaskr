@@ -144,10 +144,10 @@ def facebook_authorized(resp):
     cur = db_session.query(FacebookLogin).filter(FacebookLogin.email==me.data['email']).all()
     if len(cur) != 0:
         session['facebook_logged_in'] = True
-        return 'Logged in as email=%s redirect=%s' %(me.data['email'], request.args.get('next'))
+        flash('Logged in as email=%s' % me.data['email']) 
     else:
         flash('please check your email address')
-        return redirect(url_for('show_list'))
+    return redirect(url_for('show_list'))
 
 @facebook.tokengetter
 def get_facebook_oauth_token():
