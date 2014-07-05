@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+{% block body %}
+<h2 class="text-center" style="font-size 24px;">Send e-mail</h2>
+<br>
+<form action="{{ url_for('send') }}" method="post" class="worker" role="form">
+  <div class="form-group">
+	<label for="inputEmail">e-mail address</label>
+	<input type="email" class="form-control" id="inputEmail" placeholder="Enter e-mail" name="mailAddress">
+  </div>
+  <button type="submit" class="btn btn-default" id="sendEmail">Send</button>
+</form>
+{% endblock %}
