@@ -6,46 +6,54 @@ from rq import Queue
 from worker import conn
 from utils import count_words_at_url
 from flask.ext.mail import Mail, Message
-from flask_oauth import OAuth
-from config import FACEBOOK_APP_ID, FACEBOOK_APP_SECRET
+from flask_oauthlib.client import OAuth
 
-oauth = OAuth()
+
+oauth = OAuth(app)
 mail = Mail(app)
 q = Queue(connection=conn)
 facebook = oauth.remote_app('facebook',
-                            base_url='https://graph.facebook.com/',
-                            request_token_url=None,
-                            access_token_url='/oauth/access_token',
-                            authorize_url='https://www.facebook.com/dialog/oauth',
-                            consumer_key=FACEBOOK_APP_ID,
-                            consumer_secret=FACEBOOK_APP_SECRET,
-                            request_token_params={'scope': 'email'}
+                            app_key='FACEBOOK'
 )
+oauth.init_app(app)
 
 @app.route('/')
 def show_list():
-    cur = db_session.query(Entry)
-    List = [dict(id = entry.id, title=entry.title) for entry in cur]
-    return render_template('show_list.html', List=List)
+    if 'oauth_token' in session:
+        cur = db_session.query(Entry)
+        List = [dict(id = entry.id, title=entry.title) for entry in cur]
+        session['logged_in'] = True
+        return render_template('show_list.html', List=List)
+    return redirect(url_for('login'))
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/login')
 def login():
-    error = None
-    if request.method == 'POST':
-        cur = db_session.query(Login).filter(Login.username==request.form['username'], Login.password==request.form['password']).all()
-        if len(cur) == 0:
-            error = 'Invalid username or password'
-        else:
-            session['logged_in'] = True
-            flash('You were logged in')
-        return redirect(url_for('show_list'))
-    return render_template('login.html', error=error)
+    return facebook.authorize(callback=url_for('facebook_authorized', next=request.args.get('next') or request.referrer or None, _external=True))
 
 @app.route('/logout')
 def logout():
+    session.pop('oauth_token', None)
     session.pop('logged_in', None)
-    flash('You were logged out')
+    flash('facebook logout')
     return redirect(url_for('show_list'))
+
+@app.route('/login/authorized')
+@facebook.authorized_handler
+def facebook_authorized(resp):
+    if resp is None:
+        return 'Access denied: reson=%s error=%s' % (request.args['error_reason'], request.args['error_description'])
+    session['oauth_token'] = (resp['access_token'], '')
+    me = facebook.get('/me')
+    cur = db_session.query(FacebookLogin).filter(FacebookLogin.email==me.data['email']).all()
+    if len(cur) != 0:
+        flash('Logged in as email %s' % me.data['email']) 
+    else:
+        flash('please check your email address')
+    return redirect(url_for('show_list'))
+    
+@facebook.tokengetter
+def get_facebook_oauth_token():
+    return session.get('oauth_token')
 
 @app.route('/entry')
 def show_entry():
@@ -130,31 +138,3 @@ def send():
     flash('check your e-mail')
     return redirect(url_for('show_list'))
 
-@app.route('/facebook_login')
-def facebook_login():
-    return facebook.authorize(callback=url_for('facebook_authorized', next=request.args.get('next') or request.referrer or None, _external=True))
-
-@app.route('/facebook_login/authorized')
-@facebook.authorized_handler
-def facebook_authorized(resp):
-    if resp is None:
-        return 'Access denied: reson=%s error=%s' % (request.args['error_reason'], request.args['error_description'])
-    session['oauth_token'] = (resp['access_token'], '')
-    me = facebook.get('/me')
-    cur = db_session.query(FacebookLogin).filter(FacebookLogin.email==me.data['email']).all()
-    if len(cur) != 0:
-        session['facebook_logged_in'] = True
-        flash('Logged in as email %s' % me.data['email']) 
-    else:
-        flash('please check your email address')
-    return redirect(url_for('show_list'))
-
-@facebook.tokengetter
-def get_facebook_oauth_token():
-    return session.get('oauth_token')
-
-@app.route('/facebook_logout')
-def facebook_logout():
-    session.pop('facebook_logged_in', None)
-    flash('facebook logout')
-    return redirect(url_for('show_list'))
