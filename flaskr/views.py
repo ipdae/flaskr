@@ -151,7 +151,7 @@ def edit_entry():
     return redirect(url_for('show_entry', id=request.args['id']))
 
 @app.route('/del', methods=['POST'])
-def del_e():
+def del_entry():
     if not session.get('logged_in'):
         abort(401)
     cur = db_session.query(Entry).\
