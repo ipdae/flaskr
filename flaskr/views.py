@@ -128,11 +128,11 @@ def show_entry():
 def add_entry():
     if not session.get('logged_in'):
         abort(401)
-        entry = Entry(request.form['title'], request.form['text'], request.form['pw'])
-        db_session.add(entry)
-        db_session.commit()
-        flash('New entry was successfully posted')
-        return redirect(url_for('show_list'))
+    entry = Entry(request.form['title'], request.form['text'], request.form['pw'])
+    db_session.add(entry)
+    db_session.commit()
+    flash('New entry was successfully posted')
+    return redirect(url_for('show_list'))
 
 @app.route('/edit', methods=['POST'])
 def edit_entry():
