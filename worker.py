@@ -1,7 +1,7 @@
 import os
 
 import redis
-from flaskr import app
+from flaskr.views import app
 from rq import Worker, Queue, Connection
 
 listen = ['high', 'default', 'low']
