@@ -1,5 +1,6 @@
-from sqlalchemy import Table, Column, Integer, String
-from flaskr.database import Base, db_session
+from sqlalchemy import Column, Integer, String
+from flaskr.database import Base
+
 
 class Entry(Base):
     __tablename__ = 'entries'
@@ -14,6 +15,7 @@ class Entry(Base):
         self.text = text
         self.password = password
 
+
 class Login(Base):
     __tablename__ = 'logins'
     id = Column(Integer, primary_key=True)
@@ -23,10 +25,11 @@ class Login(Base):
     def __init__(self, username=None, password=None):
         self.username = username
         self.password = password
-        
+
     def __repr__(self):
         return '<Login %r>' % (self.username)
-    
+
+
 class Comment(Base):
     __tablename__ = 'comments'
     id = Column(Integer, primary_key=True)
@@ -35,16 +38,17 @@ class Comment(Base):
     comment = Column(String(120), unique=True)
     password = Column(String(80))
 
-    def __init__(self, id2= None, author=None, comment=None, password=None):
+    def __init__(self, id2=None, author=None, comment=None, password=None):
         self.id2 = id2
         self.author = author
         self.comment = comment
         self.password = password
 
+
 class FacebookLogin(Base):
-    __tablename__= 'facebooklogins'
+    __tablename__ = 'facebooklogins'
     id = Column(Integer, primary_key=True)
     email = Column(String(50), unique=True)
-    
+
     def __init__(self, email=None):
         self.email = email

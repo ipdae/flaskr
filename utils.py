@@ -1,7 +1,7 @@
-from flask import current_app, request
+from flask import current_app
 from flask.ext.mail import Mail, Message
 import requests
-import os
+
 
 def count_words_at_url(url, mailAddress):
     resp = requests.get(url)
