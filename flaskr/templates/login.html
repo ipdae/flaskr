@@ -3,15 +3,27 @@
 <h2 class="text-center" style="font-size: 24px;">Login</h2>
 <br>
 {% if error %}
-<p class="error"><strong>Error:</strong>{{ error }}
-  {% endif %}
-  <form action="{{ url_for('login') }}" method="post" class="form-signin" role="form" style="display: inline;">
-	<div class="form-group">
+<p class="error"><strong>Error:</strong>{{ error }}</p>
+{% endif %}
+<form action="{{ url_for('login') }}" method="post" class="form-signin" role="form">
+  <div class="form-group">
 	<input class="form-control input-lg" type="text" name="username" placeholder="Username">
-	</div>
-	<div class="form-group">
+  </div>
+  <div class="form-group">
 	<input class="form-control input-lg" type="password" name="password" placeholder="Password">
-	</div>
-	<button type="submit" class="btn btn-default btn-lg btn-block">Login</button>
-  </form>
-  {% endblock %}
+  </div>
+  <button type="submit" class="btn btn-default btn-lg btn-block">Login</button>
+</form>
+<br>
+<form action="{{ url_for('facebook_login') }}" method="get" class="form-facebookLogin" role="form">
+  <div class="form-group">
+	<button type="submit" class="btn btn-primary">Facebook Login</button>
+	<form action="{{ url_for('google_login') }}" method="get" class="form-googleLogin" role="form">
+	  <button type="submit" class="btn btn-danger" style="margin-left: 10%;">Google Login</button>
+	  <form action="{{ url_for('github_login') }}" method="get" class="form-githubLogin" role="form">
+		<button type="submit" class="btn btn-success" style="float: right;">Github Login</button>
+	  </form>
+	</form>
+  </div>
+</form>
+{% endblock %}
