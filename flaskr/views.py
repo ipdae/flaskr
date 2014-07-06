@@ -1,8 +1,12 @@
-from flaskr import app
+from __future__ import with_statement
+from flask import Flask, request, session, redirect, url_for, abort
+from flask import render_template, flash
+
+app = Flask(__name__)
+app.config.from_object('config')
+
 from flaskr.database import db_session
 from flaskr.models import Login, Entry, Comment, FacebookLogin
-from flask import request, session, redirect, url_for, abort
-from flask import render_template, flash
 from flask.ext.mail import Mail
 from rq import Queue
 from worker import conn
