@@ -229,6 +229,9 @@ def del_comment():
 
 @app.route('/worker', methods=['GET', 'POST'])
 def worker():
+    if not session.get('logged_in'):
+        flash('you must login first')
+        return redirect(url_for('login'))
     return render_template('send_mail.html')
 
 
