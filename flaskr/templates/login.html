@@ -7,23 +7,33 @@
 {% endif %}
 <form action="{{ url_for('login') }}" method="post" class="form-signin" role="form">
   <div class="form-group">
-	<input class="form-control input-lg" type="text" name="username" placeholder="Username">
+	<input class="form-control input-lg text-center" type="text" name="username" placeholder="Username">
   </div>
   <div class="form-group">
-	<input class="form-control input-lg" type="password" name="password" placeholder="Password">
+	<input class="form-control input-lg text-center" type="password" name="password" placeholder="Password">
   </div>
   <button type="submit" class="btn btn-default btn-lg btn-block">Login</button>
 </form>
 <br>
 <form action="{{ url_for('facebook_login') }}" method="get" class="form-facebookLogin" role="form">
-  <div class="form-group">
-	<button type="submit" class="btn btn-primary">Facebook Login</button>
-	<form action="{{ url_for('google_login') }}" method="get" class="form-googleLogin" role="form">
-	  <button type="submit" class="btn btn-danger" style="margin-left: 10%;">Google Login</button>
-	  <form action="{{ url_for('github_login') }}" method="get" class="form-githubLogin" role="form">
-		<button type="submit" class="btn btn-success" style="float: right;">Github Login</button>
-	  </form>
-	</form>
+  <div class="form-group text-center">
+	<button type="submit" class="btn btn-block btn-social btn-lg btn-facebook" style="text-align: center;">
+	  <i class="fa fa-facebook"></i>Sign in with Facebook
+	</button>
   </div>
 </form>
+<form action="{{ url_for('google_login') }}" method="get" class="form-googleLogin" role="form">
+  <div class="form-group">
+	<button type="submit" class="btn btn-block btn-social btn-lg btn-google-plus" style="text-align: center;">
+	  <i class="fa fa-google-plus"></i>Sign in with Google
+	</button>
+  </div>
+</form>
+  <form action="{{ url_for('github_login') }}" method="get" class="form-githubLogin" role="form">
+	<div class="form-group">
+	  <button type="submit" class="btn btn-block btn-social btn-lg btn-github" style="text-align: center;">
+		<i class="fa fa-github"></i>Github Login
+	  </button>
+	</div>
+  </form>
 {% endblock %}
