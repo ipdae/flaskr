@@ -29,6 +29,6 @@ FACEBOOK = dict(base_url='https://graph.facebook.com/',
                 request_token_url=None,
                 access_token_url='/oauth/access_token',
                 authorize_url='https://www.facebook.com/dialog/oauth',
-                consumer_key=os.environ.get('FACEBOOK_APP_ID'),
-                consumer_secret=os.environ.get('FACEBOOK_APP_SECRET'),
+                consumer_key='250103431856234',
+                consumer_secret='bf2aa7efba477d8da3f69fc681620e5a',
                 request_token_params={'scope': 'email'})
