@@ -1,5 +1,5 @@
 from __future__ import with_statement
-from flask import Flask, current_app, request, session, redirect, url_for, abort
+from flask import Flask, request, session, redirect, url_for, abort
 from flask import render_template, flash
 
 app = Flask(__name__)
@@ -79,8 +79,6 @@ def facebook_authorized(resp):
     if resp is None:
         return 'Access denied: reason=%s error=%s' % (
             request.args['error_reason'], request.args['error_description'])
-    current_app.logger.debug("resp: {}".format(resp))
-    current_app.logger.debug("session: {}".format(session))
     session['facebook_token'] = (resp['access_token'], '')
     me = facebook.get('/me')
     cur = db_session.query(FacebookLogin).filter(
