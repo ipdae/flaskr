@@ -9,8 +9,8 @@ MAIL_USERNAME = os.environ.get('MAIL_SMTP_LOGIN', None)
 MAIL_PASSWORD = os.environ.get('MAIL_SMTP_PASSWORD', None)
 MAIL_DEFAULT_SENDER = 'qooraven@gmail.com'
 GOOGLE = dict(
-    consumer_key=os.environ.get('GOOGLE_APP_ID'),
-    consumer_secret=os.environ.get('GOOGLE_APP_SECRET'),
+    consumer_key='353184524484-crdgp30oquu434rog5utk54ekfjif231.apps.googleusercontent.com',  # noqa
+    consumer_secret='VvxTR4_X6B0I-cQ7yFruut4Q',
     request_token_params={
         'scope': 'https://www.googleapis.com/auth/userinfo.email'},
     base_url='https://www.googleapis.com/oauth2/v1/',
