@@ -1,4 +1,5 @@
 import os
+DEBUG = True
 SECRET_KEY = 'devlopment key'
 MAIL_SERVER = 'smtp.gmail.com'
 MAIL_PORT = 587
