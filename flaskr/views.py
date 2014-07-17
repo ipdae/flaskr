@@ -30,6 +30,7 @@ oauth.init_app(app)
 
 @app.route('/')
 def show_list():
+    import pdb; pdb.set_trace()
     if 'logged_in' in session:
         cur = db_session.query(Entry)
         List = [dict(id=entry.id, title=entry.title) for entry in cur]
